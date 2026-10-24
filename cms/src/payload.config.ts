@@ -1,5 +1,6 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -37,5 +38,14 @@ export default buildConfig({
     },
   }),
   sharp,
-  plugins: [],
+  plugins: [
+    vercelBlobStorage({
+      // Локально без токена — файли лежать поруч із проєктом, на Vercel — у Blob Storage
+      enabled: Boolean(process.env.BLOB_READ_WRITE_TOKEN),
+      // Поле prefix завжди є в схемі, щоб локальна БД і БД на Vercel не різнилися
+      alwaysInsertFields: true,
+      collections: { media: true },
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+    }),
+  ],
 })
