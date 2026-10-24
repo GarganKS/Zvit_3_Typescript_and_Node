@@ -15,6 +15,11 @@ import { commonEndpoint, pageEndpoint } from './endpoints'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+const frontendOrigins = (process.env.FRONTEND_URL || '')
+  .split(',')
+  .map((origin) => origin.trim().replace(/\/+$/, ''))
+  .filter(Boolean)
+
 export default buildConfig({
   admin: {
     user: Users.slug,
@@ -22,7 +27,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  cors: [process.env.FRONTEND_URL || ''],
+  cors: frontendOrigins,
   serverURL: process.env.CMS_URL || '',
   endpoints: [commonEndpoint, pageEndpoint],
   globals: [Common],
