@@ -2,14 +2,14 @@ import type { Endpoint, PayloadRequest } from 'payload'
 
 import type { Media } from './payload-types'
 
-/**
- * Перетворює блок з адмінки у «плоский» JSON для фронтенду:
- * { blockType: 'hero', ... }  →  { type: 'hero', ... },
- * а медіа-зв'язок            →  { src, alt } замість повного об'єкта.
- */
 function blockCleaner(block: object): Record<string, unknown> {
-  const { id: _id, blockName: _blockName, blockType, image, ...rest } =
-    block as Record<string, unknown>
+  const {
+    id: _id,
+    blockName: _blockName,
+    blockType,
+    image,
+    ...rest
+  } = block as Record<string, unknown>
 
   const clean: Record<string, unknown> = { type: blockType, ...rest }
 

@@ -1,0 +1,48 @@
+.cta {
+    padding-block: 40px;
+}
+
+.cta__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 36px 32px;
+    border-radius: 18px;
+    background: var(--color-dark);
+    color: var(--color-on-dark);
+}
+
+.cta__content {
+    display: grid;
+    gap: 10px;
+    max-width: 56ch;
+}
+
+.cta__title {
+    margin: 0;
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
+}
+
+.cta__text {
+    margin: 0;
+    color: var(--color-dark-muted);
+}
+
+.cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+/* На темній панелі другорядна кнопка — світла */
+.cta .btn--secondary {
+    border-color: var(--color-dark-line);
+    background: transparent;
+    color: var(--color-on-dark);
+}
+
+.cta .btn--secondary:hover {
+    border-color: var(--color-dark-muted);
+}

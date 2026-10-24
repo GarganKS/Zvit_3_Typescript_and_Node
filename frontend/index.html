@@ -8,6 +8,19 @@
     </head>
     <body>
         <div id="app"></div>
+        <script>
+            // Тема до рендеру — щоб сторінка не «мигала» світлою темою
+            (function () {
+                var saved = localStorage.getItem('busflow-theme')
+                var theme =
+                    saved === 'light' || saved === 'dark'
+                        ? saved
+                        : window.matchMedia('(prefers-color-scheme: dark)').matches
+                          ? 'dark'
+                          : 'light'
+                document.documentElement.dataset.theme = theme
+            })()
+        </script>
         <script type="module" src="/src/main.ts"></script>
     </body>
 </html>

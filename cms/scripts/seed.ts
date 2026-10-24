@@ -8,14 +8,12 @@ import type { Page } from '../src/payload-types'
 /** Page без службових полів — це і є те, що ми віддаємо у create/update */
 type PageInput = Omit<Page, 'id' | 'updatedAt' | 'createdAt'>
 
+/** Сільська автобусна зупинка, Wikimedia Commons, автор GT1976, ліцензія CC BY-SA 4.0 */
 const HERO_IMAGE_URL =
-  'https://images.unsplash.com/photo-1690983322622-765f664952e8?q=80&w=1171&auto=format&fit=crop'
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/2017-09-01_%28115%29_Bus_stop_Kreuztanne_at_St._Anton_an_der_Je%C3%9Fnitz.jpg/1280px-2017-09-01_%28115%29_Bus_stop_Kreuztanne_at_St._Anton_an_der_Je%C3%9Fnitz.jpg'
 
 /** Шукає сторінку за адресою і оновлює її, або створює нову */
-async function upsertPage(
-  payload: Awaited<ReturnType<typeof getPayload>>,
-  data: PageInput,
-) {
+async function upsertPage(payload: Awaited<ReturnType<typeof getPayload>>, data: PageInput) {
   const existing = await payload.find({
     collection: 'pages',
     where: { path: { equals: data.path } },
@@ -41,14 +39,20 @@ async function upsertImage(
   filename: string,
   alt: string,
 ) {
-  const found = await payload.find({ collection: 'media', where: { filename: { equals: filename } } })
+  const found = await payload.find({
+    collection: 'media',
+    where: { filename: { equals: filename } },
+  })
   const existing = found.docs[0]
 
   if (existing) {
     return existing.id
   }
 
-  const response = await fetch(url)
+  const response = await fetch(url, {
+    // Wikimedia вимагає осмислений User-Agent
+    headers: { 'User-Agent': 'BusFlow-seed/1.0 (landing demo)' },
+  })
 
   if (!response.ok) {
     throw new Error(`Не вдалося завантажити картинку: HTTP ${response.status}`)
@@ -74,59 +78,121 @@ async function main() {
   await payload.updateGlobal({
     slug: 'common',
     data: {
-      siteName: 'Зерно — обсмажувальня кави у Львові',
-      menu: [
-        { label: 'Особливості', link: '#features' },
-        { label: 'Контакти', link: '#contacts' },
-      ],
-      footer: {
-        text: '«Зерно» — це львівська обсмажувальня, яка дбайливо обсмажує каву для тих, хто цінує справжній смак.',
-      },
+      siteName: 'BusFlow',
+      menu: [],
+      footer: { text: '' },
     },
   })
   console.log('Глобал common записано')
 
   // 2. Картинка для hero
-  const heroImageId = await upsertImage(payload, HERO_IMAGE_URL, 'hero-beans.jpg', 'Мішки з кавовими зернами у обсмажувальному цеху')
+  const heroImageId = await upsertImage(
+    payload,
+    HERO_IMAGE_URL,
+    'bus-stop.jpg',
+    'Сільська автобусна зупинка біля дороги',
+  )
 
   // 3. Головна сторінка з блоками
   await upsertPage(payload, {
     path: '/',
-    title: 'Головна',
+    title: 'BusFlow — автобусні рейси без зайвого клопоту',
     blocks: [
       {
         blockType: 'hero',
         anchor: 'hero',
-        badge: 'Свіжообсмажена кава',
-        title: 'Кава «Зерно» — смак Львова у кожній чашці',
+        badge: 'Система керування автобусними перевезеннями',
+        title: 'Автобусні рейси без зайвого клопоту',
         subtitle:
-          'Обсмажуємо зерна дрібними партіями просто у Львові. Даруємо каві характер, а вам — справжню насолоду.',
-        image: heroImageId,
+          "BusFlow з'єднує клієнта і перевізника: замовлення автобуса для групи чи подій, планування маршрутів і рейсів, продаж квитків та контроль статусів - усе в одному вікні.",
         buttons: [
-          { text: "Зв'язатися з нами", link: '#contacts', variant: 'primary' },
-          { text: 'Дізнатися більше', link: '#features', variant: 'secondary' },
+          { text: 'Зареєструватися', link: '#', variant: 'primary', icon: 'user-plus' },
+          { text: 'Увійти', link: '#', variant: 'secondary', icon: 'login' },
+        ],
+        highlights: [
+          { text: 'Реальна траса маршруту на карті' },
+          { text: 'Статуси оновлюються автоматично' },
+          { text: 'Квитки за місткістю автобуса' },
+        ],
+        image: heroImageId,
+        imageBadges: { topLeft: 'BusFlow • Працює', bottomRight: 'Безкоштовно' },
+      },
+      {
+        blockType: 'steps',
+        anchor: 'steps',
+        title: 'Як це працює',
+        subtitle: 'Чотири кроки від заявки до поїздки.',
+        items: [
+          {
+            title: 'Клієнт залишає заявку',
+            text: 'Обирає напрям, дату та кількість пасажирів - це займає кілька хвилин.',
+          },
+          {
+            title: 'Менеджер планує рейс',
+            text: 'Підбирає вільний автобус і повідомляє ціну поїздки.',
+          },
+          {
+            title: 'Клієнт підтверджує',
+            text: 'Погоджує умови або відмовляється - усе прозоро та під контролем.',
+          },
+          {
+            title: 'Автобус вирушає',
+            text: 'Статуси оновлюються самі, а квитки стають доступними до продажу.',
+          },
         ],
       },
       {
         blockType: 'features',
         anchor: 'features',
-        title: 'Чому обирають нас',
+        title: 'Можливості системи',
+        subtitle: 'Усе, що потрібно перевізнику та його клієнтам.',
         items: [
           {
-            icon: '🔥',
-            title: 'Ручна обсмажка',
-            text: 'Кожна партія обсмажується вручну з контролем температури та часу для розкриття смаку.',
+            icon: 'map',
+            tone: 'blue',
+            title: 'Маршрути на карті',
+            text: 'Реальна траса по вулицях (OSRM) та зупинки з координатами - жодних умовних ліній.',
           },
           {
-            icon: '🌱',
-            title: 'Відбірні зерна',
-            text: 'Працюємо тільки з перевіреними постачальниками зерна з Латинської Америки та Африки.',
+            icon: 'calendar',
+            tone: 'yellow',
+            title: 'Планування рейсів',
+            text: 'Реєстр автобусів, розклад та автоматична перевірка завантаженості транспорту.',
           },
           {
-            icon: '🚚',
-            title: 'Свіжа доставка',
-            text: 'Відправляємо каву протягом 24 годин після обсмажки по всьому Львову.',
+            icon: 'ticket',
+            tone: 'green',
+            title: 'Квитки за місткістю',
+            text: 'Для кожного рейсу створюється стільки квитків, скільки місць в автобусі.',
           },
+          {
+            icon: 'clipboard',
+            tone: 'blue',
+            title: 'Замовлення з підтвердженням',
+            text: 'Прозорий цикл: заявка, пропозиція менеджера та згода клієнта.',
+          },
+          {
+            icon: 'refresh',
+            tone: 'yellow',
+            title: 'Живі статуси',
+            text: 'Рейси самі переходять із «Заплановано» у «В дорозі» та «Завершено» за розкладом.',
+          },
+          {
+            icon: 'users',
+            tone: 'green',
+            title: 'Дві ролі й теми',
+            text: 'Кабінет клієнта й менеджера, світла та темна тема - на будь-який смак.',
+          },
+        ],
+      },
+      {
+        blockType: 'cta',
+        anchor: 'cta',
+        title: 'Готові почати?',
+        text: 'Створіть акаунт клієнта за хвилину та надішліть першу заявку на автобус.',
+        buttons: [
+          { text: 'Зареєструватися', link: '#', variant: 'primary', icon: 'user-plus' },
+          { text: 'Увійти', link: '#', variant: 'secondary', icon: 'login' },
         ],
       },
     ],

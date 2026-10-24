@@ -1,31 +1,37 @@
 import type { Block } from 'payload'
 
+import { buttonFields } from './buttonFields'
+
 export const Hero: Block = {
   slug: 'hero',
   labels: { singular: 'Hero', plural: 'Hero' },
   fields: [
     { name: 'anchor', type: 'text', label: 'ID секції' },
-    { name: 'badge', type: 'text', label: 'Бейдж на головній' },
+    { name: 'badge', type: 'text', label: 'Бейдж над заголовком' },
     { name: 'title', type: 'text', label: 'Заголовок', required: true },
-    { name: 'subtitle', type: 'text', label: 'Підзаголовок' },
-    { name: 'image', type: 'upload', relationTo: 'media', label: 'Зображення' },
+    { name: 'subtitle', type: 'textarea', label: 'Підзаголовок' },
     {
       name: 'buttons',
       type: 'array',
       label: 'Кнопки',
       maxRows: 2,
+      fields: buttonFields,
+    },
+    {
+      name: 'highlights',
+      type: 'array',
+      label: 'Чек-ліст під кнопками',
+      maxRows: 6,
+      fields: [{ name: 'text', type: 'text', label: 'Текст', required: true }],
+    },
+    { name: 'image', type: 'upload', relationTo: 'media', label: 'Зображення' },
+    {
+      name: 'imageBadges',
+      type: 'group',
+      label: 'Бейджі поверх зображення',
       fields: [
-        { name: 'text', type: 'text', required: true },
-        { name: 'link', type: 'text', required: true },
-        {
-          name: 'variant',
-          type: 'select',
-          defaultValue: 'primary',
-          options: [
-            { label: 'Основна', value: 'primary' },
-            { label: 'Додаткова', value: 'secondary' },
-          ],
-        },
+        { name: 'topLeft', type: 'text', label: 'Бейдж зверху зліва (напр. «BusFlow • Працює»)' },
+        { name: 'bottomRight', type: 'text', label: 'Бейдж знизу справа (напр. «Безкоштовно»)' },
       ],
     },
   ],

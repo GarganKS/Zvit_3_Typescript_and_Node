@@ -185,15 +185,26 @@ export interface Page {
             badge?: string | null;
             title: string;
             subtitle?: string | null;
-            image?: (number | null) | Media;
             buttons?:
               | {
                   text: string;
                   link: string;
                   variant?: ('primary' | 'secondary') | null;
+                  icon?: ('none' | 'user-plus' | 'login') | null;
                   id?: string | null;
                 }[]
               | null;
+            highlights?:
+              | {
+                  text: string;
+                  id?: string | null;
+                }[]
+              | null;
+            image?: (number | null) | Media;
+            imageBadges?: {
+              topLeft?: string | null;
+              bottomRight?: string | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'hero';
@@ -201,9 +212,26 @@ export interface Page {
         | {
             anchor?: string | null;
             title: string;
+            subtitle?: string | null;
+            items?:
+              | {
+                  title: string;
+                  text?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'steps';
+          }
+        | {
+            anchor?: string | null;
+            title: string;
+            subtitle?: string | null;
             items?:
               | {
                   icon: string;
+                  tone?: ('blue' | 'yellow' | 'green') | null;
                   title: string;
                   text?: string | null;
                   id?: string | null;
@@ -212,6 +240,23 @@ export interface Page {
             id?: string | null;
             blockName?: string | null;
             blockType: 'features';
+          }
+        | {
+            anchor?: string | null;
+            title: string;
+            text?: string | null;
+            buttons?:
+              | {
+                  text: string;
+                  link: string;
+                  variant?: ('primary' | 'secondary') | null;
+                  icon?: ('none' | 'user-plus' | 'login') | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'cta';
           }
       )[]
     | null;
@@ -356,13 +401,42 @@ export interface PagesSelect<T extends boolean = true> {
               badge?: T;
               title?: T;
               subtitle?: T;
-              image?: T;
               buttons?:
                 | T
                 | {
                     text?: T;
                     link?: T;
                     variant?: T;
+                    icon?: T;
+                    id?: T;
+                  };
+              highlights?:
+                | T
+                | {
+                    text?: T;
+                    id?: T;
+                  };
+              image?: T;
+              imageBadges?:
+                | T
+                | {
+                    topLeft?: T;
+                    bottomRight?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        steps?:
+          | T
+          | {
+              anchor?: T;
+              title?: T;
+              subtitle?: T;
+              items?:
+                | T
+                | {
+                    title?: T;
+                    text?: T;
                     id?: T;
                   };
               id?: T;
@@ -373,12 +447,32 @@ export interface PagesSelect<T extends boolean = true> {
           | {
               anchor?: T;
               title?: T;
+              subtitle?: T;
               items?:
                 | T
                 | {
                     icon?: T;
+                    tone?: T;
                     title?: T;
                     text?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        cta?:
+          | T
+          | {
+              anchor?: T;
+              title?: T;
+              text?: T;
+              buttons?:
+                | T
+                | {
+                    text?: T;
+                    link?: T;
+                    variant?: T;
+                    icon?: T;
                     id?: T;
                   };
               id?: T;

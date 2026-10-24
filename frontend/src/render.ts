@@ -1,5 +1,7 @@
+import { callToAction } from './blocks/cta/cta'
 import { features } from './blocks/features/features'
 import { hero } from './blocks/hero/hero'
+import { steps } from './blocks/steps/steps'
 import type { Block } from './types'
 
 /** Тут TypeScript сам перевірить, що для кожного типу блока є свій рендерер */
@@ -12,8 +14,12 @@ function renderBlock(block: Block): string {
   switch (block.type) {
     case 'hero':
       return hero(block)
+    case 'steps':
+      return steps(block)
     case 'features':
       return features(block)
+    case 'cta':
+      return callToAction(block)
     default:
       return unknownBlock(block)
   }
