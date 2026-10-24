@@ -1,19 +1,21 @@
 import type { Endpoint, PayloadRequest } from 'payload'
 
-type AnyBlock = Record<string, any>
+import type { Media } from './payload-types'
 
 /**
  * Перетворює блок з адмінки у «плоский» JSON для фронтенду:
  * { blockType: 'hero', ... }  →  { type: 'hero', ... },
  * а медіа-зв'язок            →  { src, alt } замість повного об'єкта.
  */
-function blockCleaner(block: AnyBlock) {
-  const { id, blockName, blockType, image, ...rest } = block
+function blockCleaner(block: object): Record<string, unknown> {
+  const { id: _id, blockName: _blockName, blockType, image, ...rest } =
+    block as Record<string, unknown>
 
-  const clean: Record<string, any> = { type: blockType, ...rest }
+  const clean: Record<string, unknown> = { type: blockType, ...rest }
 
   if (image && typeof image === 'object') {
-    clean.image = { src: image.url, alt: image.alt }
+    const media = image as Partial<Pick<Media, 'url' | 'alt'>>
+    clean.image = { src: media.url ?? '', alt: media.alt ?? '' }
   }
 
   return clean
@@ -28,7 +30,7 @@ export const commonEndpoint: Endpoint = {
 
     return Response.json({
       siteName: common.siteName ?? '',
-      menu: (common.menu ?? []).map(({ label, link }: any) => ({ label, link })),
+      menu: (common.menu ?? []).map(({ label, link }) => ({ label, link })),
       footer: { text: common.footer?.text ?? '' },
     })
   },
