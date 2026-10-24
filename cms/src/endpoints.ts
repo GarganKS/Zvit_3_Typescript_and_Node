@@ -27,7 +27,7 @@ export const commonEndpoint: Endpoint = {
     const common = await req.payload.findGlobal({ slug: 'common', depth: 1 })
 
     return Response.json({
-      siteName: common.siteName,
+      siteName: common.siteName ?? '',
       menu: (common.menu ?? []).map(({ label, link }: any) => ({ label, link })),
       footer: { text: common.footer?.text ?? '' },
     })
