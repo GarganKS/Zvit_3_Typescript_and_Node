@@ -3,12 +3,19 @@ import 'dotenv/config'
 import { getPayload } from 'payload'
 
 import config from '../src/payload.config'
+import type { Page } from '../src/payload-types'
+
+/** Page без службових полів — це і є те, що ми віддаємо у create/update */
+type PageInput = Omit<Page, 'id' | 'updatedAt' | 'createdAt'>
 
 const HERO_IMAGE_URL =
   'https://images.unsplash.com/photo-1690983322622-765f664952e8?q=80&w=1171&auto=format&fit=crop'
 
 /** Шукає сторінку за адресою і оновлює її, або створює нову */
-async function upsertPage(payload: Awaited<ReturnType<typeof getPayload>>, data: Record<string, any>) {
+async function upsertPage(
+  payload: Awaited<ReturnType<typeof getPayload>>,
+  data: PageInput,
+) {
   const existing = await payload.find({
     collection: 'pages',
     where: { path: { equals: data.path } },
