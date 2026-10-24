@@ -1,7 +1,7 @@
 import type { Page, Settings } from './types'
 
 /** Адреса Payload CMS ( у Vercel — https://ваш-cms.vercel.app ) */
-const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000'
+const API_URL = (import.meta.env.VITE_API_URL ?? 'http://localhost:3000').replace(/\/+$/, '')
 
 async function getJson<T>(path: string): Promise<T> {
   const res = await fetch(`${API_URL}${path}`)
