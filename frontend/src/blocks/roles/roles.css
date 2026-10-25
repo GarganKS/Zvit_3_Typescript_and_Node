@@ -1,0 +1,8 @@
+.roles__grid {
+    display: grid;
+    gap: 20px;
+}
+
+@media (min-width: 900px) {
+    .roles__grid { grid-template-columns: repeat(3, 1fr); }
+}

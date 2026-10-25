@@ -201,8 +201,12 @@ export interface Page {
         | {
             anchor?: string | null;
             title: string;
+            subtitle?: string | null;
             items?:
               | {
+                  /**
+                   * Назва іконки: bus, route, map, calendar, ticket, users, shield, dashboard, clock, refresh, smartphone, check
+                   */
                   icon: string;
                   title: string;
                   text?: string | null;
@@ -212,6 +216,99 @@ export interface Page {
             id?: string | null;
             blockName?: string | null;
             blockType: 'features';
+          }
+        | {
+            anchor?: string | null;
+            title: string;
+            subtitle?: string | null;
+            items?:
+              | {
+                  /**
+                   * Назва іконки: bus, route, map, calendar, ticket, users, shield, dashboard, clock, refresh, smartphone, check
+                   */
+                  icon?: string | null;
+                  title: string;
+                  text?: string | null;
+                  points?:
+                    | {
+                        text: string;
+                        id?: string | null;
+                      }[]
+                    | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'roles';
+          }
+        | {
+            anchor?: string | null;
+            title: string;
+            subtitle?: string | null;
+            items?:
+              | {
+                  title: string;
+                  text?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'steps';
+          }
+        | {
+            anchor?: string | null;
+            title: string;
+            subtitle?: string | null;
+            items?:
+              | {
+                  eyebrow?: string | null;
+                  title: string;
+                  text?: string | null;
+                  points?:
+                    | {
+                        text: string;
+                        id?: string | null;
+                      }[]
+                    | null;
+                  image?: (number | null) | Media;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'showcase';
+          }
+        | {
+            anchor?: string | null;
+            title: string;
+            items?:
+              | {
+                  question: string;
+                  answer: string;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'faq';
+          }
+        | {
+            anchor?: string | null;
+            title: string;
+            text?: string | null;
+            buttons?:
+              | {
+                  text: string;
+                  link: string;
+                  variant?: ('primary' | 'secondary') | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'cta';
           }
       )[]
     | null;
@@ -373,12 +470,108 @@ export interface PagesSelect<T extends boolean = true> {
           | {
               anchor?: T;
               title?: T;
+              subtitle?: T;
               items?:
                 | T
                 | {
                     icon?: T;
                     title?: T;
                     text?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        roles?:
+          | T
+          | {
+              anchor?: T;
+              title?: T;
+              subtitle?: T;
+              items?:
+                | T
+                | {
+                    icon?: T;
+                    title?: T;
+                    text?: T;
+                    points?:
+                      | T
+                      | {
+                          text?: T;
+                          id?: T;
+                        };
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        steps?:
+          | T
+          | {
+              anchor?: T;
+              title?: T;
+              subtitle?: T;
+              items?:
+                | T
+                | {
+                    title?: T;
+                    text?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        showcase?:
+          | T
+          | {
+              anchor?: T;
+              title?: T;
+              subtitle?: T;
+              items?:
+                | T
+                | {
+                    eyebrow?: T;
+                    title?: T;
+                    text?: T;
+                    points?:
+                      | T
+                      | {
+                          text?: T;
+                          id?: T;
+                        };
+                    image?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        faq?:
+          | T
+          | {
+              anchor?: T;
+              title?: T;
+              items?:
+                | T
+                | {
+                    question?: T;
+                    answer?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        cta?:
+          | T
+          | {
+              anchor?: T;
+              title?: T;
+              text?: T;
+              buttons?:
+                | T
+                | {
+                    text?: T;
+                    link?: T;
+                    variant?: T;
                     id?: T;
                   };
               id?: T;
@@ -442,7 +635,14 @@ export interface Common {
         id?: string | null;
       }[]
     | null;
+  auth?: {
+    loginText?: string | null;
+    loginLink?: string | null;
+    registerText?: string | null;
+    registerLink?: string | null;
+  };
   footer?: {
+    description?: string | null;
     text?: string | null;
   };
   updatedAt?: string | null;
@@ -461,9 +661,18 @@ export interface CommonSelect<T extends boolean = true> {
         link?: T;
         id?: T;
       };
+  auth?:
+    | T
+    | {
+        loginText?: T;
+        loginLink?: T;
+        registerText?: T;
+        registerLink?: T;
+      };
   footer?:
     | T
     | {
+        description?: T;
         text?: T;
       };
   updatedAt?: T;

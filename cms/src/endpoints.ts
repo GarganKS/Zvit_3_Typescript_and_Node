@@ -2,23 +2,29 @@ import type { Endpoint, PayloadRequest } from 'payload'
 
 import type { Media } from './payload-types'
 
+type Json = Record<string, unknown>
+
+function isMedia(value: unknown): value is Partial<Pick<Media, 'url' | 'alt'>> {
+  return typeof value === 'object' && value !== null && 'url' in value && 'filename' in value
+}
+
 /**
- * Перетворює блок з адмінки у «плоский» JSON для фронтенду:
- * { blockType: 'hero', ... }  →  { type: 'hero', ... },
- * а медіа-зв'язок            →  { src, alt } замість повного об'єкта.
+ * Перетворює дані з адмінки у «плоский» JSON для фронтенду (рекурсивно):
+ * { blockType: 'hero', ... } → { type: 'hero', ... },
+ * медіа-зв'язок (на будь-якій глибині) → { src, alt }, службові id прибираються.
  */
-function blockCleaner(block: object): Record<string, unknown> {
-  const { id: _id, blockName: _blockName, blockType, image, ...rest } =
-    block as Record<string, unknown>
+function clean(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(clean)
+  if (isMedia(value)) return { src: value.url ?? '', alt: value.alt ?? '' }
 
-  const clean: Record<string, unknown> = { type: blockType, ...rest }
-
-  if (image && typeof image === 'object') {
-    const media = image as Partial<Pick<Media, 'url' | 'alt'>>
-    clean.image = { src: media.url ?? '', alt: media.alt ?? '' }
+  if (value && typeof value === 'object') {
+    const { id: _id, blockName: _blockName, blockType, ...rest } = value as Json
+    const out: Json = {}
+    for (const [key, item] of Object.entries(rest)) out[key] = clean(item)
+    return blockType ? { type: blockType, ...out } : out
   }
 
-  return clean
+  return value
 }
 
 /** GET /api/common — назва сайту, меню, футер */
@@ -31,7 +37,16 @@ export const commonEndpoint: Endpoint = {
     return Response.json({
       siteName: common.siteName ?? '',
       menu: (common.menu ?? []).map(({ label, link }) => ({ label, link })),
-      footer: { text: common.footer?.text ?? '' },
+      auth: {
+        loginText: common.auth?.loginText ?? 'Увійти',
+        loginLink: common.auth?.loginLink ?? '#',
+        registerText: common.auth?.registerText ?? 'Зареєструватися',
+        registerLink: common.auth?.registerLink ?? '#',
+      },
+      footer: {
+        text: common.footer?.text ?? '',
+        description: common.footer?.description ?? '',
+      },
     })
   },
 }
@@ -59,7 +74,7 @@ export const pageEndpoint: Endpoint = {
     return Response.json({
       path: page.path,
       title: page.title,
-      blocks: (page.blocks ?? []).map(blockCleaner),
+      blocks: (page.blocks ?? []).map(clean),
     })
   },
 }

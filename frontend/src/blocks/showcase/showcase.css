@@ -1,0 +1,31 @@
+.showcase__list {
+    display: grid;
+    gap: clamp(48px, 8vw, 88px);
+}
+
+.showcase__item {
+    display: grid;
+    gap: 28px;
+    align-items: center;
+}
+
+.showcase__eyebrow {
+    color: var(--accent-text);
+    font-weight: 600;
+}
+
+.showcase__title {
+    margin: 6px 0 12px;
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.showcase__text .card__text {
+    max-width: 48ch;
+}
+
+@media (min-width: 900px) {
+    .showcase__item { grid-template-columns: 1fr 1.15fr; gap: 64px; }
+    .showcase__item:nth-child(even) .showcase__text { order: 2; }
+}

@@ -16,10 +16,24 @@ export const Common: GlobalConfig = {
       ],
     },
     {
+      name: 'auth',
+      type: 'group',
+      label: 'Кнопки входу в хедері',
+      fields: [
+        { name: 'loginText', type: 'text', label: 'Текст «Увійти»', defaultValue: 'Увійти' },
+        { name: 'loginLink', type: 'text', label: 'Посилання «Увійти»', defaultValue: '#' },
+        { name: 'registerText', type: 'text', label: 'Текст «Реєстрація»', defaultValue: 'Зареєструватися' },
+        { name: 'registerLink', type: 'text', label: 'Посилання «Реєстрація»', defaultValue: '#' },
+      ],
+    },
+    {
       name: 'footer',
       type: 'group',
       label: 'Футтер',
-      fields: [{ name: 'text', type: 'text', label: 'Текст у футтері' }],
+      fields: [
+        { name: 'description', type: 'textarea', label: 'Короткий опис під логотипом' },
+        { name: 'text', type: 'text', label: 'Текст у футтері' },
+      ],
     },
   ],
 }

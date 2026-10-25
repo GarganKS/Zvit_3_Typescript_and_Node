@@ -1,0 +1,40 @@
+.steps__list {
+    display: grid;
+    gap: 28px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.step {
+    position: relative;
+}
+
+.step__num {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: var(--sand-bg);
+    color: var(--sand-text);
+    font-size: 1.15rem;
+    font-weight: 800;
+}
+
+.step .card__text {
+    max-width: 36ch;
+}
+
+@media (min-width: 800px) {
+    .steps__list { grid-template-columns: repeat(3, 1fr); gap: 32px; }
+
+    .step:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        top: 22px;
+        left: 62px;
+        right: -16px;
+        border-top: 2px dashed var(--line);
+    }
+}
