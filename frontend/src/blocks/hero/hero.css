@@ -1,139 +1,75 @@
 .hero {
-    display: grid;
-    gap: 40px;
-    align-items: center;
-    padding-block: 48px 24px;
+  padding-block: clamp(40px, 8vw, 96px);
+  background: radial-gradient(
+    60% 70% at 85% 0%,
+    rgba(31, 79, 216, 0.14),
+    transparent 70%
+  );
+}
+
+.hero__grid {
+  display: grid;
+  gap: 40px;
+  align-items: center;
 }
 
 .hero__content {
-    display: grid;
-    gap: 20px;
-    justify-items: start;
-}
-
-.hero__badge {
-    display: inline-flex;
-    gap: 8px;
-    align-items: center;
-    padding: 7px 14px;
-    border-radius: 999px;
-    background: #e0e7ff;
-    color: #4338ca;
-    font-size: 0.85rem;
-    font-weight: 600;
-}
-
-[data-theme='dark'] .hero__badge {
-    background: #312e81;
-    color: #c7d2fe;
+  display: grid;
+  gap: 20px;
+  justify-items: start;
 }
 
 .hero__title {
-    margin: 0;
-    font-size: clamp(2.1rem, 5.5vw, 3.4rem);
-    line-height: 1.08;
-    letter-spacing: -0.02em;
+  margin: 0;
+  font-size: clamp(2.2rem, 5.6vw, 3.9rem);
+  font-weight: 800;
+  line-height: 1.07;
+  letter-spacing: -0.035em;
 }
 
 .hero__subtitle {
-    margin: 0;
-    max-width: 52ch;
-    font-size: 1.1rem;
-    color: var(--color-muted);
+  margin: 0;
+  max-width: 52ch;
+  color: var(--muted);
+  font-size: clamp(1.02rem, 1.6vw, 1.18rem);
 }
 
 .hero__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
 }
 
-.hero__highlights {
-    display: grid;
-    gap: 10px 28px;
-    margin: 8px 0 0;
-    padding: 0;
-    list-style: none;
+/* Єдина «вистава» на сторінці: поява першого екрана */
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    translate: 0 16px;
+  }
 }
 
-.hero__highlight {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    color: var(--color-text);
-    font-size: 0.95rem;
-}
-
-.hero__highlight svg {
-    flex: none;
-    color: #16a34a;
-}
-
-/* --- Зображення з бейджами --- */
-
+.hero__content > *,
 .hero__media {
-    position: relative;
+  animation: hero-in 0.65s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
 }
 
-.hero__image {
-    width: 100%;
-    aspect-ratio: 16 / 10;
-    object-fit: cover;
-    border-radius: 18px;
-    background: var(--color-line);
+.hero__content > :nth-child(2) {
+  animation-delay: 0.08s;
 }
-
-.hero__image-badge {
-    position: absolute;
-    display: inline-flex;
-    gap: 8px;
-    align-items: center;
-    padding: 9px 14px;
-    border-radius: 12px;
-    background: #ffffff;
-    color: #0f172a;
-    font-size: 0.85rem;
-    box-shadow: 0 6px 20px rgb(15 23 42 / 0.18);
+.hero__content > :nth-child(3) {
+  animation-delay: 0.16s;
 }
-
-.hero__image-badge--top {
-    top: 14px;
-    left: 14px;
+.hero__content > :nth-child(4) {
+  animation-delay: 0.24s;
 }
-
-.hero__image-badge--bottom {
-    right: 14px;
-    bottom: 14px;
-    font-weight: 600;
-}
-
-.hero__status {
-    display: inline-flex;
-    gap: 6px;
-    align-items: center;
-    padding: 3px 10px;
-    border-radius: 999px;
-    background: #dcfce7;
-    color: #15803d;
-    font-weight: 600;
-}
-
-.hero__status-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #22c55e;
+.hero__media {
+  animation-delay: 0.3s;
 }
 
 @media (min-width: 900px) {
-    .hero {
-        /* minmax(0, 1fr) — щоб колонки були рівними, а довгий текст не розпихував сітку */
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-        min-height: 62vh;
-    }
-
-    .hero__highlights {
-        grid-template-columns: repeat(2, max-content);
-    }
+  .hero__grid {
+    grid-template-columns: 1.05fr 1fr;
+    gap: 56px;
+  }
 }

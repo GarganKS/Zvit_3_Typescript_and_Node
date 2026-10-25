@@ -27,3 +27,7 @@ Two independent projects — there is no root `package.json` or workspace config
 - Path aliases: `@/*` → `src/*`, `@payload-config` → `src/payload.config.ts`.
 - e2e specs hardcode `http://localhost:3000`, and `frontend.e2e.spec.ts` still asserts the default Payload homepage text — update it if you change the homepage.
 - Prettier config (applied manually since there's no format script): single quotes, no semicolons, trailing commas, printWidth 100.
+
+## Other notes
+
+- use `-` instead `—`

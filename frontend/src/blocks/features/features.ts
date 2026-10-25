@@ -1,33 +1,30 @@
-import { icon } from '../../icons'
-import type { FeatureItem, FeaturesBlock } from '../../types'
-import './features.css'
+import { icon } from "../../icons";
+import type { FeaturesBlock } from "../../types";
+import { sectionHead } from "../../ui";
+import "./features.css";
 
-/** Відомі іконки малюємо SVG, інакше показуємо текст як є (напр. емодзі зі старих записів) */
-function featureIcon(name: string): string {
-  const svg = icon(name, 22)
-
-  return svg || name
-}
-
-function feature({ icon: iconName, tone = 'blue', title, text }: FeatureItem): string {
+export function features({
+  anchor,
+  title,
+  subtitle,
+  items = [],
+}: FeaturesBlock): string {
   return `
-      <article class="feature">
-        <span class="feature__icon feature__icon--${tone}">${featureIcon(iconName)}</span>
-        <h3 class="feature__title">${title}</h3>
-        <p class="feature__text">${text ?? ''}</p>
-      </article>`
-}
-
-export function features({ anchor, title, subtitle, items = [] }: FeaturesBlock): string {
-  return `
-  <section class="features" id="${anchor ?? ''}">
-    <div class="section-head">
-      <h2 class="section-title">${title}</h2>
-      ${subtitle ? `<p class="section-subtitle">${subtitle}</p>` : ''}
+  <section class="section" id="${anchor ?? ""}">
+    <div class="container">
+      ${sectionHead(title, subtitle)}
+      <div class="features__grid">
+        ${items
+          .map(
+            (item) => `
+        <article class="card">
+          <span class="chip">${icon(item.icon)}</span>
+          <h3 class="card__title">${item.title}</h3>
+          <p class="card__text">${item.text ?? ""}</p>
+        </article>`,
+          )
+          .join("")}
+      </div>
     </div>
-    <div class="features__grid">
-      ${items.map(feature).join('')}
-    </div>
-  </section>
-  `
+  </section>`;
 }

@@ -11,6 +11,13 @@ export const Hero: Block = {
     { name: 'title', type: 'text', label: 'Заголовок', required: true },
     { name: 'subtitle', type: 'textarea', label: 'Підзаголовок' },
     {
+      name: 'imageDark',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Зображення для темної теми',
+      admin: { description: 'Необов’язково. Якщо порожньо - показується звичайне зображення.' },
+    },
+    {
       name: 'buttons',
       type: 'array',
       label: 'Кнопки',

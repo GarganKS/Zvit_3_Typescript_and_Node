@@ -1,25 +1,16 @@
-import { icon } from '../../icons'
-import type { Button, CallToActionBlock } from '../../types'
-import './cta.css'
+import type { CtaBlock } from "../../types";
+import { buttons } from "../../ui";
+import "./cta.css";
 
-function button({ text, link, variant = 'primary', icon: name }: Button): string {
-  const glyph = name && name !== 'none' ? icon(name, 18) : ''
-
-  return `<a class="btn btn--${variant}" href="${link}">${glyph}${text}</a>`
-}
-
-export function callToAction(block: CallToActionBlock): string {
-  const { anchor, title, text, buttons = [] } = block
-
+export function cta({ anchor, title, text, buttons: list }: CtaBlock): string {
   return `
-  <section class="cta" id="${anchor ?? ''}">
-    <div class="cta__inner">
-      <div class="cta__content">
+  <section class="section section--tight" id="${anchor ?? ""}">
+    <div class="container">
+      <div class="cta__box">
         <h2 class="cta__title">${title}</h2>
-        ${text ? `<p class="cta__text">${text}</p>` : ''}
+        ${text ? `<p class="cta__text">${text}</p>` : ""}
+        <div class="cta__actions">${buttons(list)}</div>
       </div>
-      ${buttons.length ? `<div class="cta__actions">${buttons.map(button).join('')}</div>` : ''}
     </div>
-  </section>
-  `
+  </section>`;
 }

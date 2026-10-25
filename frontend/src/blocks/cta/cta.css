@@ -1,48 +1,53 @@
-.cta {
-    padding-block: 40px;
-}
-
-.cta__inner {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 24px;
-    align-items: center;
-    justify-content: space-between;
-    padding: 36px 32px;
-    border-radius: 18px;
-    background: var(--color-dark);
-    color: var(--color-on-dark);
-}
-
-.cta__content {
-    display: grid;
-    gap: 10px;
-    max-width: 56ch;
+.cta__box {
+  display: grid;
+  justify-items: start;
+  gap: 14px;
+  padding: clamp(32px, 6vw, 64px);
+  border-radius: 28px;
+  background: var(--blue);
+  color: #fff;
 }
 
 .cta__title {
-    margin: 0;
-    font-size: clamp(1.4rem, 3vw, 1.8rem);
+  margin: 0;
+  max-width: 22ch;
+  font-size: clamp(1.7rem, 3.8vw, 2.6rem);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
 }
 
 .cta__text {
-    margin: 0;
-    color: var(--color-dark-muted);
+  margin: 0;
+  max-width: 48ch;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1.08rem;
 }
 
 .cta__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
 }
 
-/* На темній панелі другорядна кнопка — світла */
-.cta .btn--secondary {
-    border-color: var(--color-dark-line);
-    background: transparent;
-    color: var(--color-on-dark);
+/* На синьому тлі основна кнопка — «пісочна», додаткова — контурна */
+.cta__box .btn--primary {
+  background: var(--sand);
+  color: #0e1e33;
 }
 
-.cta .btn--secondary:hover {
-    border-color: var(--color-dark-muted);
+.cta__box .btn--primary:hover {
+  background: #ffe99a;
+}
+
+.cta__box .btn--secondary {
+  border-color: rgba(255, 255, 255, 0.5);
+  background: transparent;
+  color: #fff;
+}
+
+.cta__box .btn--secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #fff;
+  color: #fff;
 }
