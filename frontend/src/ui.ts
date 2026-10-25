@@ -45,8 +45,8 @@ export function checks(points: Point[] = []): string {
 export function buttons(list: Button[] = []): string {
   return list
     .map(
-      ({ text, link, variant }) =>
-        `<a class="btn btn--${variant}" href="${link}">${text}</a>`,
+      ({ text, link, variant = "primary", icon: iconName }) =>
+        `<a class="btn btn--${variant}" href="${link}">${iconName && iconName !== "none" ? icon(iconName, 18) : ""}${text}</a>`,
     )
     .join("");
 }

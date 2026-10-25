@@ -1,5 +1,5 @@
 import type { HeroBlock } from "../../types";
-import { buttons, media } from "../../ui";
+import { buttons, checks, media } from "../../ui";
 import "./hero.css";
 
 export function hero({
@@ -10,6 +10,8 @@ export function hero({
   image,
   imageDark,
   buttons: list,
+  highlights,
+  imageBadges,
 }: HeroBlock): string {
   return `
   <section class="hero" id="${anchor ?? ""}">
@@ -19,8 +21,13 @@ export function hero({
         <h1 class="hero__title">${title}</h1>
         ${subtitle ? `<p class="hero__subtitle">${subtitle}</p>` : ""}
         <div class="hero__actions">${buttons(list)}</div>
+        ${checks(highlights)}
       </div>
-          ${media(image, imageDark, "hero__media", "5 / 4")}
+      <div class="hero__visual">
+        ${media(image, imageDark, "hero__media", "5 / 4")}
+        ${imageBadges?.topLeft ? `<span class="hero__badge hero__badge--tl">${imageBadges.topLeft}</span>` : ""}
+        ${imageBadges?.bottomRight ? `<span class="hero__badge hero__badge--br">${imageBadges.bottomRight}</span>` : ""}
+      </div>
     </div>
   </section>`;
 }

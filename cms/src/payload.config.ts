@@ -15,6 +15,20 @@ import { commonEndpoint, pageEndpoint } from './endpoints'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+const isProd = process.env.NODE_ENV === 'production'
+
+// Neon: у dev (drizzle push) потрібне пряме підключення без `-pooler` у хості.
+// На Vercel (prod) використовуємо pooled DATABASE_URL.
+const databaseUrl = isProd
+  ? process.env.DATABASE_URL
+  : process.env.DATABASE_URL_UNPOOLED || process.env.DATABASE_URL
+
+if (!databaseUrl) {
+  throw new Error(
+    'DATABASE_URL не задано. Створіть cms/.env за зразком .env.example (рядок підключення Neon).',
+  )
+}
+
 const frontendOrigins = (process.env.FRONTEND_URL || '')
   .split(',')
   .map((origin) => origin.trim().replace(/\/+$/, ''))
@@ -39,7 +53,7 @@ export default buildConfig({
   },
   db: postgresAdapter({
     pool: {
-      connectionString: process.env.DATABASE_URL || '',
+      connectionString: databaseUrl,
     },
   }),
   sharp,

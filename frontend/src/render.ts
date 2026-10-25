@@ -23,8 +23,6 @@ function renderBlock(block: Block): string {
       return features(block);
     case "roles":
       return roles(block);
-    case "steps":
-      return steps(block);
     case "showcase":
       return showcase(block);
     case "faq":

@@ -3,7 +3,6 @@ import type { Settings } from "../types";
 
 export function footer({ siteName, menu, footer }: Settings): string {
   const year = new Date().getFullYear();
-  const extra = footer.text ? ` ${footer.text}` : "";
 
   return `
   <footer class="footer">

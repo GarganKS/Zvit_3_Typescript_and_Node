@@ -78,6 +78,7 @@ a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   padding: 13px 24px;
   border: 1.5px solid transparent;
   border-radius: 12px;

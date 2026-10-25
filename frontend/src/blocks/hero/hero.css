@@ -73,3 +73,28 @@
     gap: 56px;
   }
 }
+
+.hero__visual {
+  position: relative;
+}
+
+.hero__badge {
+  position: absolute;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--surface, #fff);
+  color: var(--text, inherit);
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.hero__badge--tl {
+  top: 12px;
+  left: 12px;
+}
+
+.hero__badge--br {
+  right: 12px;
+  bottom: 12px;
+}

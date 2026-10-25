@@ -9,6 +9,9 @@ export interface Point {
   text: string;
 }
 
+export type ButtonVariant = "primary" | "secondary";
+export type ButtonIcon = "none" | "user-plus" | "login";
+
 export interface Button {
   text: string;
   link: string;
@@ -58,14 +61,6 @@ export interface RolesBlock {
   items?: { icon?: string; title: string; text?: string; points?: Point[] }[];
 }
 
-export interface StepsBlock {
-  type: "steps";
-  anchor?: string;
-  title: string;
-  subtitle?: string;
-  items?: { title: string; text?: string }[];
-}
-
 export interface ShowcaseBlock {
   type: "showcase";
   anchor?: string;
@@ -89,14 +84,6 @@ export interface FaqBlock {
 }
 
 export interface CtaBlock {
-  type: "cta";
-  anchor?: string;
-  title: string;
-  text?: string;
-  buttons?: Button[];
-}
-
-export interface CallToActionBlock {
   type: "cta";
   anchor?: string;
   title: string;

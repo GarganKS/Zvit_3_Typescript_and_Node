@@ -1,6 +1,7 @@
 import type { Block } from 'payload'
 
-import { anchorField, buttonsField } from './fields'
+import { buttonFields } from './buttonFields'
+import { anchorField } from './fields'
 
 export const Cta: Block = {
   slug: 'cta',
@@ -8,7 +9,13 @@ export const Cta: Block = {
   fields: [
     anchorField,
     { name: 'title', type: 'text', label: 'Заголовок', required: true },
-    { name: 'text', type: 'text', label: 'Текст' },
-    buttonsField,
+    { name: 'text', type: 'textarea', label: 'Текст' },
+    {
+      name: 'buttons',
+      type: 'array',
+      label: 'Кнопки',
+      maxRows: 2,
+      fields: buttonFields,
+    },
   ],
 }
