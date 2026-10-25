@@ -185,10 +185,6 @@ export interface Page {
             badge?: string | null;
             title: string;
             subtitle?: string | null;
-            /**
-             * Необов’язково. Якщо порожньо - показується звичайне зображення.
-             */
-            imageDark?: (number | null) | Media;
             buttons?:
               | {
                   text: string;
@@ -205,6 +201,10 @@ export interface Page {
                 }[]
               | null;
             image?: (number | null) | Media;
+            /**
+             * Необов’язково. Якщо порожньо - показується зображення світлої теми.
+             */
+            imageDark?: (number | null) | Media;
             imageBadges?: {
               topLeft?: string | null;
               bottomRight?: string | null;
@@ -473,7 +473,6 @@ export interface PagesSelect<T extends boolean = true> {
               badge?: T;
               title?: T;
               subtitle?: T;
-              imageDark?: T;
               buttons?:
                 | T
                 | {
@@ -490,6 +489,7 @@ export interface PagesSelect<T extends boolean = true> {
                     id?: T;
                   };
               image?: T;
+              imageDark?: T;
               imageBadges?:
                 | T
                 | {

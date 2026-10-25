@@ -11,13 +11,6 @@ export const Hero: Block = {
     { name: 'title', type: 'text', label: 'Заголовок', required: true },
     { name: 'subtitle', type: 'textarea', label: 'Підзаголовок' },
     {
-      name: 'imageDark',
-      type: 'upload',
-      relationTo: 'media',
-      label: 'Зображення для темної теми',
-      admin: { description: 'Необов’язково. Якщо порожньо - показується звичайне зображення.' },
-    },
-    {
       name: 'buttons',
       type: 'array',
       label: 'Кнопки',
@@ -31,7 +24,14 @@ export const Hero: Block = {
       maxRows: 6,
       fields: [{ name: 'text', type: 'text', label: 'Текст', required: true }],
     },
-    { name: 'image', type: 'upload', relationTo: 'media', label: 'Зображення' },
+    { name: 'image', type: 'upload', relationTo: 'media', label: 'Зображення (світла тема)' },
+    {
+      name: 'imageDark',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Зображення (темна тема)',
+      admin: { description: 'Необов’язково. Якщо порожньо - показується зображення світлої теми.' },
+    },
     {
       name: 'imageBadges',
       type: 'group',
