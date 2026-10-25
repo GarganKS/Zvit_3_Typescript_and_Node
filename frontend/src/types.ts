@@ -26,7 +26,6 @@ export interface HeroBlock {
   imageDark?: MediaImage;
   buttons?: Button[];
   highlights?: { text: string }[];
-  image?: { src: string; alt: string };
   imageBadges?: { topLeft?: string; bottomRight?: string };
 }
 
