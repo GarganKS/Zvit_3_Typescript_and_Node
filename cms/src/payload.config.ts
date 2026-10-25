@@ -64,6 +64,8 @@ export default buildConfig({
       // Поле prefix завжди є в схемі, щоб локальна БД і БД на Vercel не різнилися
       alwaysInsertFields: true,
       collections: { media: true },
+      // Файли йдуть з браузера напряму в Blob (обхід ліміту 4.5 МБ на запит у Vercel)
+      clientUploads: true,
       token: process.env.BLOB_READ_WRITE_TOKEN,
     }),
   ],
