@@ -18,7 +18,7 @@ export function showcase({ anchor, title, subtitle, items = [] }: ShowcaseBlock)
             <p class="card__text">${item.text ?? ''}</p>
             ${checks(item.points)}
           </div>
-          ${media(item.image, 'showcase__media', '16 / 11')}
+            ${media(item.image, item.imageDark, 'showcase__media', '16 / 11')}
         </article>`,
           )
           .join('')}

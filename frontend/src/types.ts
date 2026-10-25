@@ -22,6 +22,7 @@ export interface HeroBlock {
   title: string
   subtitle?: string
   image?: MediaImage
+  imageDark?: MediaImage
   buttons?: Button[]
 }
 
@@ -54,7 +55,7 @@ export interface ShowcaseBlock {
   anchor?: string
   title: string
   subtitle?: string
-  items?: { eyebrow?: string; title: string; text?: string; points?: Point[]; image?: MediaImage }[]
+  items?: { eyebrow?: string; title: string; text?: string; points?: Point[]; image?: MediaImage;imageDark?: MediaImage }[]
 }
 
 export interface FaqBlock {

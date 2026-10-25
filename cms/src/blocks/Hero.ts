@@ -10,6 +10,13 @@ export const Hero: Block = {
     { name: 'subtitle', type: 'text', label: 'Підзаголовок' },
     { name: 'image', type: 'upload', relationTo: 'media', label: 'Зображення' },
     {
+      name: 'imageDark',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Зображення для темної теми',
+      admin: { description: 'Необов’язково. Якщо порожньо - показується звичайне зображення.' },
+    },
+    {
       name: 'buttons',
       type: 'array',
       label: 'Кнопки',

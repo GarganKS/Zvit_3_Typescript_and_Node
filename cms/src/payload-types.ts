@@ -186,6 +186,10 @@ export interface Page {
             title: string;
             subtitle?: string | null;
             image?: (number | null) | Media;
+            /**
+             * Необов’язково. Якщо порожньо - показується звичайне зображення.
+             */
+            imageDark?: (number | null) | Media;
             buttons?:
               | {
                   text: string;
@@ -273,6 +277,10 @@ export interface Page {
                       }[]
                     | null;
                   image?: (number | null) | Media;
+                  /**
+                   * Необов’язково. Якщо порожньо - показується звичайне зображення.
+                   */
+                  imageDark?: (number | null) | Media;
                   id?: string | null;
                 }[]
               | null;
@@ -454,6 +462,7 @@ export interface PagesSelect<T extends boolean = true> {
               title?: T;
               subtitle?: T;
               image?: T;
+              imageDark?: T;
               buttons?:
                 | T
                 | {
@@ -540,6 +549,7 @@ export interface PagesSelect<T extends boolean = true> {
                           id?: T;
                         };
                     image?: T;
+                    imageDark?: T;
                     id?: T;
                   };
               id?: T;

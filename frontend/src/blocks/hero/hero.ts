@@ -2,7 +2,7 @@ import type { HeroBlock } from '../../types'
 import { buttons, media } from '../../ui'
 import './hero.css'
 
-export function hero({ anchor, badge, title, subtitle, image, buttons: list }: HeroBlock): string {
+export function hero({ anchor, badge, title, subtitle, image, imageDark, buttons: list }: HeroBlock): string {
   return `
   <section class="hero" id="${anchor ?? ''}">
     <div class="container hero__grid">
@@ -12,7 +12,7 @@ export function hero({ anchor, badge, title, subtitle, image, buttons: list }: H
         ${subtitle ? `<p class="hero__subtitle">${subtitle}</p>` : ''}
         <div class="hero__actions">${buttons(list)}</div>
       </div>
-      ${media(image, 'hero__media', '5 / 4')}
+          ${media(image, imageDark, 'hero__media', '5 / 4')}
     </div>
   </section>`
 }
