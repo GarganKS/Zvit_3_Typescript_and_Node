@@ -8,19 +8,36 @@ function isMedia(value: unknown): value is Partial<Pick<Media, 'url' | 'alt'>> {
   return typeof value === 'object' && value !== null && 'url' in value && 'filename' in value
 }
 
+/** Адреса CMS: CMS_URL або походження поточного запиту */
+function cmsOrigin(req: PayloadRequest): string {
+  const fromEnv = process.env.CMS_URL?.replace(/\/+$/, '')
+  if (fromEnv) return fromEnv
+  try {
+    return new URL(req.url ?? '').origin
+  } catch {
+    return ''
+  }
+}
+
+/** Відносні шляхи (/api/media/file/...) робимо абсолютними — фронтенд живе на іншому домені */
+function absoluteUrl(url: string | null | undefined, origin: string): string {
+  if (!url) return ''
+  return url.startsWith('/') ? `${origin}${url}` : url
+}
+
 /**
  * Перетворює дані з адмінки у «плоский» JSON для фронтенду (рекурсивно):
  * { blockType: 'hero', ... } → { type: 'hero', ... },
  * медіа-зв'язок (на будь-якій глибині) → { src, alt }, службові id прибираються.
  */
-function clean(value: unknown): unknown {
-  if (Array.isArray(value)) return value.map(clean)
-  if (isMedia(value)) return { src: value.url ?? '', alt: value.alt ?? '' }
+function clean(value: unknown, origin: string): unknown {
+  if (Array.isArray(value)) return value.map((item) => clean(item, origin))
+  if (isMedia(value)) return { src: absoluteUrl(value.url, origin), alt: value.alt ?? '' }
 
   if (value && typeof value === 'object') {
     const { id: _id, blockName: _blockName, blockType, ...rest } = value as Json
     const out: Json = {}
-    for (const [key, item] of Object.entries(rest)) out[key] = clean(item)
+    for (const [key, item] of Object.entries(rest)) out[key] = clean(item, origin)
     return blockType ? { type: blockType, ...out } : out
   }
 
@@ -74,7 +91,7 @@ export const pageEndpoint: Endpoint = {
     return Response.json({
       path: page.path,
       title: page.title,
-      blocks: (page.blocks ?? []).map(clean),
+      blocks: (page.blocks ?? []).map((block) => clean(block, cmsOrigin(req))),
     })
   },
 }

@@ -63,7 +63,8 @@ export default buildConfig({
       enabled: Boolean(process.env.BLOB_READ_WRITE_TOKEN),
       // Поле prefix завжди є в схемі, щоб локальна БД і БД на Vercel не різнилися
       alwaysInsertFields: true,
-      collections: { media: true },
+      // Прямі посилання на Blob (CDN) замість проксі через /api/media/file
+      collections: { media: { disablePayloadAccessControl: true } },
       // За замовчуванням файли йдуть через сервер (до ~4 МБ). Для прямого завантаження
       // з браузера (великі файли) задайте BLOB_CLIENT_UPLOADS=true у змінних середовища.
       clientUploads: process.env.BLOB_CLIENT_UPLOADS === 'true',
